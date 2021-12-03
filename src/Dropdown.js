@@ -29,17 +29,19 @@ function Dropdown() {
     console.log(`${fromLocation}\n${toLocation}\n${date}`);
 
 
-    axios.post("http://localhost:3000/trips",
+    axios.post("http://localhost:5000/trips",
       {floc:document.getElementById("floc").value,
       tloc:document.getElementById("tloc").value,
       dte:document.getElementById("dte").value
       })
       .then(resp=>{console.log(resp.data)
+        document.getElementById("floc").value="";
+        document.getElementById("tloc").value="";
+        document.getElementById("dte").value="";
       })
       .catch(function (err){
         console.log(err)
       })
-
 
   };
   return (
@@ -87,7 +89,7 @@ function Dropdown() {
               type="date"
             ></input>
           </div>
-          <button id="btn" type="submit">
+          <button id="btn" type="submit" >
             Book Now
           </button>
         </div>
