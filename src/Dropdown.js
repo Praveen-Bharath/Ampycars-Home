@@ -3,8 +3,12 @@ import Select from "react-select";
 import axios from 'axios';
 import "./dropdown.css";
 
+
 function Dropdown() {
+  const [selectedOption, setSelectedOption] = useState("");
   const [showToLocation, setShowToLocation] = useState(true);
+  const baseUrl = "http://localhost:5001/trips";
+  const baseUrlRound = "http://localhost:5001/tripsrounds";
   const options = [
     { value: "single-way-trip", label: "Single-way Trip" },
     { value: "round-trip", label: "Round Trip" },
@@ -12,6 +16,7 @@ function Dropdown() {
 
   const handleDropdownChange = (selectedValue) => {
     console.log(selectedValue);
+    setSelectedOption(selectedValue.value);
     if (selectedValue.value === "round-trip") {
       setShowToLocation((value) => !value);
     }
@@ -28,21 +33,35 @@ function Dropdown() {
     const date = event.target.dateTime.value;
     console.log(`${fromLocation}\n${toLocation}\n${date}`);
 
-
-    axios.post("http://localhost:5000/trips",
+    if(selectedOption==="round-trip")
+    {
+      axios.post(baseUrlRound,
       {floc:document.getElementById("floc").value,
-      tloc:document.getElementById("tloc").value,
       dte:document.getElementById("dte").value
       })
       .then(resp=>{console.log(resp.data)
         document.getElementById("floc").value="";
-        document.getElementById("tloc").value="";
         document.getElementById("dte").value="";
       })
       .catch(function (err){
         console.log(err)
       })
-
+    }
+    else{
+        axios.post(baseUrl,
+          {"floc":document.getElementById("floc").value,
+          "tloc":document.getElementById("tloc").value,
+          "dte":document.getElementById("dte").value
+          })
+          .then(resp=>{console.log(resp.data)
+            document.getElementById("floc").value="";
+            document.getElementById("tloc").value="";
+            document.getElementById("dte").value="";
+          })
+          .catch(err=>{
+            console.log(err)
+          })
+    }
   };
   return (
     <div className="container">
@@ -51,6 +70,7 @@ function Dropdown() {
           className="dropdown"
           options={options}
           onChange={handleDropdownChange}
+          value = {selectedOption}
         ></Select>
         <div className="location_container">
           <div id="from">
