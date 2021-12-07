@@ -2,13 +2,16 @@ import { useState } from "react";
 import Select from "react-select";
 import axios from 'axios';
 import "./dropdown.css";
-
+// import {Link } from "react-router-dom";
+import { myConfig } from './config';
+import { useNavigate } from 'react-router-dom';
 
 function Dropdown() {
+  const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("");
   const [showToLocation, setShowToLocation] = useState(true);
-  const baseUrl = "http://localhost:5001/trips";
-  const baseUrlRound = "http://localhost:5001/tripsrounds";
+  // const baseUrl = "http://localhost:5001/trips";
+  //const baseUrlRound = "http://localhost:5001/tripsrounds";
   const options = [
     { value: "single-way-trip", label: "Single-way Trip" },
     { value: "round-trip", label: "Round Trip" },
@@ -35,20 +38,22 @@ function Dropdown() {
 
     if(selectedOption==="round-trip")
     {
-      axios.post(baseUrlRound,
+      axios.post(myConfig.apiUrl+'/tripsrounds',
       {floc:document.getElementById("floc").value,
       dte:document.getElementById("dte").value
       })
       .then(resp=>{console.log(resp.data)
         document.getElementById("floc").value="";
         document.getElementById("dte").value="";
+        navigate("/carlist");
+        //  navigate=()=> "/mypage";
       })
       .catch(function (err){
         console.log(err)
       })
     }
     else{
-        axios.post(baseUrl,
+        axios.post(myConfig.apiUrl+'/trips',
           {"floc":document.getElementById("floc").value,
           "tloc":document.getElementById("tloc").value,
           "dte":document.getElementById("dte").value
@@ -57,6 +62,7 @@ function Dropdown() {
             document.getElementById("floc").value="";
             document.getElementById("tloc").value="";
             document.getElementById("dte").value="";
+            // history("/carlist");
           })
           .catch(err=>{
             console.log(err)
@@ -66,12 +72,14 @@ function Dropdown() {
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
+        <div className="heading"> Select Type of Trip to Travel </div>
         <Select
           className="dropdown"
           options={options}
           onChange={handleDropdownChange}
           value = {selectedOption}
         ></Select>
+        <div> {selectedOption} </div>
         <div className="location_container">
           <div id="from">
             From Location :
@@ -97,7 +105,6 @@ function Dropdown() {
               ></input>
             </div>
           )}
-
           <div id="date" name="date">
             Date of Travel :
             <input
@@ -105,46 +112,21 @@ function Dropdown() {
               className="dateTime"
               required
               name="dateTime"
-              //type="datetime-local"
               type="date"
             ></input>
           </div>
-          <button id="btn" type="submit" >
-            Book Now
+        
+          <button id="btn" type="button" 
+          >
+         
+            Search
+         
           </button>
+         
         </div>
       </form>
     </div>
   );
 }
 
-// function Location() {
-//   const [showTo, setShowTo] = useState(true);
-//   return (
-//     <div>
-//       <div className="location_container">
-//         <div id="from">
-//           From Location :<input className="fromLocation" type="text"></input>
-//           <br />
-//           <br />
-//           <div id="to">
-//             To Location :
-//             {showTo && <input className="fromLocation" type="text"></input>}
-//             <br /> <br />
-//             <div id="date">
-//               Date of Travel :
-//               <input className="fromLocation" type="datetime-local"></input>
-//               <br /> <br />
-//               <div id="button">
-//                 <button id="btn" type="submit">
-//                   Book Now
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 export default Dropdown;
