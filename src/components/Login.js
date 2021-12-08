@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
-import "./login.css";
+import '../components/login.css';
+import {Link} from 'react-router-dom';
 
   function Login(){
    
@@ -32,7 +33,7 @@ import "./login.css";
                     <input type="email" id="user_email" name="user_email" placeholder="User Email"  required ></input>
                     <input type="password" id="password" name="password" placeholder="Password" required ></input>
                     <button type="submit" className="login-button" > Login </button>
-                    <div>If ur new user <a href="http://localhost:3000/signup">signup</a></div>
+                    <div>If ur new user <Link to="/signup" type="submit"> <a>signup</a></Link></div>
           </form>
                 </div>
             </div>

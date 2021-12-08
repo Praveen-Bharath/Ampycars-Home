@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button, Card} from 'react-bootstrap';
-import "./carList.css";
 import {Link} from "react-router-dom";
 
 const Cars = ()=>{

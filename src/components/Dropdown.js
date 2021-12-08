@@ -1,17 +1,15 @@
 import { useState } from "react";
 import Select from "react-select";
 import axios from 'axios';
-import "./dropdown.css";
-// import {Link } from "react-router-dom";
-import { myConfig } from './config';
-import { useNavigate } from 'react-router-dom';
+import '../components/dropdown.css';
+import {Link } from "react-router-dom";
+import { myConfig } from '../config';
+//import { useNavigate } from 'react-router-dom';
 
 function Dropdown() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("");
   const [showToLocation, setShowToLocation] = useState(true);
-  // const baseUrl = "http://localhost:5001/trips";
-  //const baseUrlRound = "http://localhost:5001/tripsrounds";
   const options = [
     { value: "single-way-trip", label: "Single-way Trip" },
     { value: "round-trip", label: "Round Trip" },
@@ -45,7 +43,7 @@ function Dropdown() {
       .then(resp=>{console.log(resp.data)
         document.getElementById("floc").value="";
         document.getElementById("dte").value="";
-        navigate("/carlist");
+        // navigate("/carlist");
         //  navigate=()=> "/mypage";
       })
       .catch(function (err){
@@ -70,6 +68,7 @@ function Dropdown() {
     }
   };
   return (
+    <div className="bg">
     <div className="container">
       <form onSubmit={handleSubmit}>
         <div className="heading"> Select Type of Trip to Travel </div>
@@ -115,16 +114,17 @@ function Dropdown() {
               type="date"
             ></input>
           </div>
-        
+        <Link to="/carlist" >
           <button id="btn" type="button" 
           >
          
             Search
          
           </button>
-         
+         </Link>
         </div>
       </form>
+    </div>
     </div>
   );
 }
