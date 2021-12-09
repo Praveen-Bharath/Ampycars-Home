@@ -6,11 +6,19 @@ import {Link} from "react-router-dom";
 const Cars = ()=>{
   const axios = require('axios');
   const[car,setcar]=useState([]);
-
+  const [logged,setlog]=React.useState(false);
+  let username = localStorage.getItem("userdetail");
+   username=JSON.parse(username);
+   console.log(username);
+   React.useEffect(()=>{
+     if(username){
+       setlog(true)
+     } 
+   },[logged])  
  
 const getcardata = async()=>{
   try{
-    const data = await axios.get("http://localhost:7050/api/carlist");
+    const data = await axios.get("http://localhost:7051/api/carlist");
 
 setcar(data.data);
 }catch(e){
@@ -36,9 +44,27 @@ useEffect(()=>{
             <Card.Title key= {item.id} >{item.title}</Card.Title>
             <Card.Text >₹ {item.price}</Card.Text>
             <Card.Text >{item.description}</Card.Text>
-            <Link to="/login" type="submit">
-            <Button  key= {item.id} variant="primary">Book</Button>
-            </Link>
+           
+           
+       
+            { !logged && (
+      <>
+       <Link to="/login" type="submit">
+       <Button  key= {item.id} variant="primary">Book</Button>
+       </Link>
+      </>
+    )}
+      
+      { logged && (
+        <>
+        <Link to='/signup'>
+        <Button  key= {item.id} variant="primary">Book</Button>
+        </Link>
+      
+      </>
+      )}
+           
+   
             
             &nbsp;&nbsp;
             <Link to="/" type="submit"><Button variant="secondary"> Cancel </Button>

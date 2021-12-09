@@ -1,61 +1,36 @@
 import React from 'react';
  import {Link} from 'react-router-dom';
  import "./Navbar.css";
-// import {
-//   Nav,
-//   NavLink,
-//   Bars,
-//   NavMenu,
-//   NavBtn,
-//   NavBtnLink,
-// } from './NavbarElements';
-  
-const Navbar = () => {
+ import Button from '@restart/ui/esm/Button';
+ const Navbar = () => {
+
+  const [logged,setlog]=React.useState(false);
+   let username = localStorage.getItem("userdetail");
+   username=JSON.parse(username);
+   console.log(username);
+   React.useEffect(()=>{
+     if(username){
+       setlog(true)
+     } 
+   },[logged])  
   return (
     <div>
     <div className="nav">
-      <Link to="/">Home</Link>
+    { logged && (
+      <span>
+        {username.users.name}
+      </span>
+    )}
+      <Link to="/"><Button>Home</Button></Link>
+      { !logged && (
+        <>
+      <Link to="/login"><Button>Login</Button></Link>
+      <Link to="/signup"><Button>SignUp</Button></Link>
+      </>
+      )}
     </div>
-    <div>
-      <Link to="/sheeps">Login</Link>
-      <Link to="/goats">SignUp</Link>
     </div>
-    </div>
- 
-    // <>
-    //   <Nav>
-    //     <Bars />
-  
-    //     <NavMenu>
-    //       <NavLink to='/' activeStyle>
-    //         Home
-    //       </NavLink>
-    //       {/* <NavLink to='/events' activeStyle>
-    //         Events
-    //       </NavLink>
-    //       <NavLink to='/annual' activeStyle>
-    //         Annual Report
-    //       </NavLink>
-    //       <NavLink to='/team' activeStyle>
-    //         Teams
-    //       </NavLink> */}
-    //       {/* <NavLink to='/login' activeStyle>
-    //         Login
-    //       </NavLink>
-
-    //       <NavLink to='/signup' activeStyle>
-    //         Sign Up
-    //       </NavLink> */}
-    //       {/* Second Nav */}
-    //       {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
-    //     </NavMenu>
-    //     <NavBtn>
-    //       <NavBtnLink to='/login'>Login</NavBtnLink>
-    //       <NavBtnLink to='/signup'>Sign In</NavBtnLink>
-    //     </NavBtn>
-    //   </Nav>
-    // </>
   );
 };
-  
+ 
 export default Navbar;

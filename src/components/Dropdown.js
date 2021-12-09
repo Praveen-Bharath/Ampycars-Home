@@ -4,10 +4,11 @@ import axios from 'axios';
 import '../components/dropdown.css';
 import {Link } from "react-router-dom";
 import { myConfig } from '../config';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 function Dropdown() {
-  //const navigate = useNavigate();
+  let navigate = useNavigate();
   const [selectedOption, setSelectedOption] = useState("");
   const [showToLocation, setShowToLocation] = useState(true);
   const options = [
@@ -25,7 +26,7 @@ function Dropdown() {
       setShowToLocation((value) => !value);
     }
   };
-  const handleSubmit = (event) => {
+    const  handleSubmit = (event) => {
     event.preventDefault();
     const fromLocation = event.target.fromLocation.value;
     const toLocation = !showToLocation
@@ -34,38 +35,52 @@ function Dropdown() {
     const date = event.target.dateTime.value;
     console.log(`${fromLocation}\n${toLocation}\n${date}`);
 
-    if(selectedOption==="round-trip")
+    if(selectedOption==="round-trip" && selectedOption!=="")
     {
       axios.post(myConfig.apiUrl+'/tripsrounds',
       {floc:document.getElementById("floc").value,
       dte:document.getElementById("dte").value
       })
+      
       .then(resp=>{console.log(resp.data)
         document.getElementById("floc").value="";
         document.getElementById("dte").value="";
-        // navigate("/carlist");
-        //  navigate=()=> "/mypage";
+        console.log("got REsponse");
+         navigate("/carlist",{replace:true});
       })
       .catch(function (err){
         console.log(err)
       })
     }
     else{
+      if(selectedOption!==""){
+      if(fromLocation!==toLocation && selectedOption!==""){
         axios.post(myConfig.apiUrl+'/trips',
-          {"floc":document.getElementById("floc").value,
+          {
+          "floc":document.getElementById("floc").value,
           "tloc":document.getElementById("tloc").value,
-          "dte":document.getElementById("dte").value
+          "dte":document.getElementById("dte").value,
+
           })
           .then(resp=>{console.log(resp.data)
             document.getElementById("floc").value="";
             document.getElementById("tloc").value="";
             document.getElementById("dte").value="";
-            // history("/carlist");
+            console.log("got REsponse");
+            navigate("/carlist",{replace:true});
           })
           .catch(err=>{
             console.log(err)
           })
     }
+    else{
+      alert("Please provide different Locations");
+    }
+  }
+    else{
+      alert("Please Select the Type of Trip");
+    }
+  }
   };
   return (
     <div className="bg">
@@ -74,6 +89,7 @@ function Dropdown() {
         <div className="heading"> Select Type of Trip to Travel </div>
         <Select
           className="dropdown"
+          required
           options={options}
           onChange={handleDropdownChange}
           value = {selectedOption}
@@ -114,14 +130,10 @@ function Dropdown() {
               type="date"
             ></input>
           </div>
-        <Link to="/carlist" >
-          <button id="btn" type="button" 
-          >
-         
+  
+          <button id="btn" type="submit" >
             Search
-         
           </button>
-         </Link>
         </div>
       </form>
     </div>

@@ -7,8 +7,8 @@ function Signup() {
     function handlechange(){
         const password = document.getElementById("password");
         const conformpassword = document.getElementById("confirmPassword");
-        const email =document.getElementById("email");
-        Validation(email);
+        //const email =document.getElementById("email");
+       // Validation(email);
         if(password.value===conformpassword.value)
         {
         axios.post("http://localhost:5001/addvalue",{
@@ -33,12 +33,8 @@ function Signup() {
     alert("Password Mismatched");
 }       console.log("Password Matched");
     }
-    function Validation(p){
-        if((p.value=== "")||(!p.value.includes("@gmail.com"))){
-            p.nextElementSibling.innerHTML= "Invalid Email";
-            alert("Invalid Email");
-        }
-    }
+   
+    
     return (
         <div className="main">
         <div className='signupContainer'>
@@ -55,17 +51,19 @@ function Signup() {
                 </div>
                 <div>
                     <label>Email</label>
-                    <input type= 'text' id="email" name= 'email' placeholder= 'Enter Email-Id' 
-                    required/>
+                    <input type= 'email' id="email" name= 'email' placeholder= 'Enter Email-Id' required
+                     pattern='^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' 
+                    />
                 </div>
                 <div>
                     <label>Phone Number</label>
-                    <input type="tel" id="phoneNo" name= 'phoneNo' placeholder= 'Mobile Number - xxxxx xxxxx' required pattern="[0-9]{5} [0-9]{5}"  />
+                    <input type="tel" id="phoneNo" name= 'phoneNo' placeholder= 'Mobile Number - xxxxx xxxxx' required pattern="[5-9]{1}[0-9]{9}"  />
                 </div>
                 <div>
                     <label>Password</label>
                     <input type= 'password' id="password" name= 'password' placeholder= 'Enter Password' 
-                    required
+                    required 
+                    pattern="[A-Z]{1}[a-z]{6}[0-9]{2}"
                      />
                 </div>
                 <div>
@@ -75,12 +73,8 @@ function Signup() {
                      />
                 </div>
                 </div>
-                <button onClick={handlechange} type="submit">Sign Up</button>
-               {/* <br/> <div>
-                New User ? please <a href="https://www.google.com">SignUp</a>
-            </div> */}
+                <button type="submit">Sign Up</button>
             </form>
-            
         </div>
         </div>
     )
