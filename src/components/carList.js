@@ -7,6 +7,8 @@ const Cars = ()=>{
   const axios = require('axios');
   const[car,setcar]=useState([]);
   const [logged,setlog]=React.useState(false);
+  let logg=localStorage.getItem('logged')
+  logg==='true'?logg=true:logg=false;
   let username = localStorage.getItem("userdetail");
    username=JSON.parse(username);
    console.log(username);
@@ -47,7 +49,7 @@ useEffect(()=>{
            
            
        
-            { !logged && (
+            { !logg && (
       <>
        <Link to="/login" type="submit">
        <Button  key= {item.id} variant="primary">Book</Button>
@@ -55,7 +57,7 @@ useEffect(()=>{
       </>
     )}
       
-      { logged && (
+      { logg && (
         <>
         <Link to='/signup'>
         <Button  key= {item.id} variant="primary">Book</Button>

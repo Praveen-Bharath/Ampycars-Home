@@ -5,3 +5,8 @@
     padding: 0px 0px 10px 0px;
     background-color: rgba(253,202,199,255);
 }
+.username{
+    display: flex;
+    justify-content: center;
+    padding: 23px 40px;
+}

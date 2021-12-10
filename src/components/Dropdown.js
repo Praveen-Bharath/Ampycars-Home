@@ -28,6 +28,11 @@ function Dropdown() {
   };
     const  handleSubmit = (event) => {
     event.preventDefault();
+    let username = localStorage.getItem("userdetail");
+    
+    username= JSON.parse(username)
+
+
     const fromLocation = event.target.fromLocation.value;
     const toLocation = !showToLocation
       ? undefined
@@ -39,7 +44,8 @@ function Dropdown() {
     {
       axios.post(myConfig.apiUrl+'/tripsrounds',
       {floc:document.getElementById("floc").value,
-      dte:document.getElementById("dte").value
+      dte:document.getElementById("dte").value,
+      "userId":username.logdata.UserId
       })
       
       .then(resp=>{console.log(resp.data)
@@ -60,7 +66,7 @@ function Dropdown() {
           "floc":document.getElementById("floc").value,
           "tloc":document.getElementById("tloc").value,
           "dte":document.getElementById("dte").value,
-
+          "userId":username.users.userId
           })
           .then(resp=>{console.log(resp.data)
             document.getElementById("floc").value="";
@@ -130,7 +136,6 @@ function Dropdown() {
               type="date"
             ></input>
           </div>
-  
           <button id="btn" type="submit" >
             Search
           </button>

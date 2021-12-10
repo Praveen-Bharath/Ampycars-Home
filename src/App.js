@@ -5,6 +5,7 @@ import Cars from "./components/carList";
 import Login from "./components/Login.js";
 import Signup from "./components/Signup";
 import Navbar from "./components/Navbarpage/Navbar.js";
+import Summary from "./components/Bookingsummary.js";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/carlist" element={<Cars/>} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
+        <Route path="/summary" element={<Summary/>}/>
       </Routes>
     </Router>
     </div>

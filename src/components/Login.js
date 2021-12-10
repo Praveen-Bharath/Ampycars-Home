@@ -16,11 +16,13 @@ import { useNavigate } from 'react-router-dom';
         console.log("executed")
          alert(resp.data.message);
         if(resp.data.message==="Logged-In Successfully"){
+          localStorage.setItem('logged',true);
           localStorage.setItem("userdetail",JSON.stringify(resp.data));
+          
       console.log("user account is detected",resp.data);
       document.getElementById("user_email").value="";
       document.getElementById("password").value="";
-        navigate('/');
+        navigate('/summary');
     }
 
       })
